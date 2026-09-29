@@ -1,1 +1,14 @@
-# felizaniverrenato
+# Renatinho Birthday — V8 Y2K
+
+Estrutura:
+- `index.html` — experiência pública do Renatinho.
+- `create.html` — área secreta dos amigos.
+- `admin.html` — área privada da organizadora.
+- `cards/cards.json` — cartões publicados.
+
+No GitHub Pages, publique todos os arquivos descompactados mantendo a pasta `cards`.
+Códigos atuais:
+- Friends: `RENATINHO2000`
+- Admin: `RENATO-ADMIN-2026`
+
+A música de arquivo pode tocar no clique de abertura. YouTube/Spotify dependem das políticas de reprodução do provedor/navegador.

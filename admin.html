@@ -1,0 +1,17 @@
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>★ ADMIN CONSOLE ★</title><link rel="stylesheet" href="style.css?v=8"></head><body>
+<main class="intro-screen"><div class="intro-window" style="min-height:auto"><div class="window-title"><span>★ RENATINHO_ADMIN.EXE</span><span>PRIVATE</span></div><div class="intro-content" style="justify-content:flex-start">
+<div class="tiny blink">!!! ADMIN ONLY !!!</div><h1 style="font-size:32px">ADMIN CONSOLE<span style="font-size:22px">PUBLISHING CENTER</span></h1>
+<form id="gate" class="win-box" style="padding:18px;width:min(480px,100%);color:#111"><label style="display:block;font-weight:bold;font-size:10px">ADMIN CODE<input id="code" type="password" style="display:block;width:100%;padding:12px;margin:8px 0"></label><button class="start-button" style="font-size:10px;width:100%;margin:8px 0">ACCESS</button><div id="error" style="color:#a00;font-weight:bold;font-size:9px"></div></form>
+<section id="panel" class="win-box hidden" style="padding:18px;width:min(950px,100%);color:#111;text-align:left"><div class="box-head">PUBLISH FRIEND CARDS</div><div style="padding:12px;display:grid;gap:12px">
+<p style="font-size:10px">Importe os arquivos <b>.json</b> enviados pelos amigos. Nada entra no site até você clicar em publicar.</p>
+<input id="files" type="file" accept=".json,application/json" multiple>
+<div id="list" style="display:grid;gap:7px"></div>
+<button id="export" class="start-button" style="font-size:10px">★ EXPORTAR CARDS.JSON</button><div id="status" style="font-size:9px"></div>
+</div></section></div></div></main>
+<script>
+const CODE="RENATO-ADMIN-2026", $=s=>document.querySelector(s);let cards=[];
+$("#gate").onsubmit=e=>{e.preventDefault();if($("#code").value===CODE){$("#gate").classList.add("hidden");$("#panel").classList.remove("hidden")}else $("#error").textContent="ACCESS DENIED"};
+$("#files").onchange=async e=>{for(const f of e.target.files){try{const c=JSON.parse(await f.text());if(c.id&&c.nome&&c.mensagem)cards.push(c)}catch(_){}}render()};
+function render(){$("#list").innerHTML=cards.map((c,i)=>`<div style="background:#111;color:#fff;padding:8px;font:10px monospace;display:flex;justify-content:space-between"><span><b>${c.nome}</b> — ${c.titulo}</span><button data-i="${i}">REMOVE</button></div>`).join("");$("#list").querySelectorAll("button").forEach(b=>b.onclick=()=>{cards.splice(+b.dataset.i,1);render()})}
+$("#export").onclick=()=>{if(!cards.length){$("#status").textContent="NENHUM CARTÃO";return}const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([JSON.stringify(cards,null,2)],{type:"application/json"}));a.download="cards.json";a.click();$("#status").textContent="★ SUBSTITUA cards/cards.json NO GITHUB ★"};
+</script></body></html>

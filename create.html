@@ -1,0 +1,30 @@
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>★ SECRET FRIEND AREA ★</title><link rel="stylesheet" href="style.css?v=8"></head><body>
+<main class="intro-screen"><div class="intro-window" style="min-height:auto"><div class="window-title"><span>★ FRIEND_AREA.EXE</span><span>PRIVATE</span></div><div class="intro-content" style="justify-content:flex-start">
+<div class="tiny blink">!!! CLASSIFIED !!!</div><h1 style="font-size:32px">CARD FACTORY<span style="font-size:24px">FOR RENATINHO</span></h1>
+<form id="gate" class="win-box" style="padding:18px;width:min(480px,100%);color:#111"><label style="display:block;font-weight:bold;font-size:10px">ACCESS CODE<input id="code" style="display:block;width:100%;padding:12px;margin:8px 0" autocomplete="off"></label><button class="start-button" style="font-size:10px;width:100%;margin:8px 0">ENTER SECRET AREA</button><div id="error" style="color:#a00;font-weight:bold;font-size:9px"></div></form>
+<form id="factory" class="win-box hidden" style="padding:18px;width:min(900px,100%);color:#111;text-align:left">
+<div class="box-head">CREATE YOUR CARD</div><div style="padding:12px;display:grid;gap:10px">
+<label>SEU NOME<input id="name" required style="display:block;width:100%;padding:9px"></label>
+<label>TÍTULO<input id="title" placeholder="Ex.: LEVEL UP!" style="display:block;width:100%;padding:9px"></label>
+<label>MENSAGEM<textarea id="message" rows="7" required style="display:block;width:100%;padding:9px"></textarea></label>
+<label>ÍCONE / EMOJI<input id="icon" value="✨" style="display:block;width:100%;padding:9px"></label>
+<label>ANIMAÇÃO<select id="anim" style="display:block;width:100%;padding:9px"><option value="stadium">⚽ STADIUM</option><option value="dino">🦖 DINOSAUR</option><option value="pirate">☠️ PIRATE</option><option value="music">♫ MUSIC</option><option value="books">📖 BOOK</option><option value="secret">★ SECRET</option></select></label>
+<label>MÚSICA<select id="musicType" style="display:block;width:100%;padding:9px"><option value="none">SEM MÚSICA</option><option value="youtube">YOUTUBE</option><option value="spotify">SPOTIFY</option><option value="file">ARQUIVO DE ÁUDIO</option></select></label>
+<input id="musicUrl" placeholder="Cole o link do YouTube/Spotify" style="display:block;width:100%;padding:9px">
+<input id="musicFile" type="file" accept="audio/*" style="display:block;width:100%;padding:9px">
+<label>FOTO<input id="photo" type="file" accept="image/*" style="display:block;width:100%;padding:9px"></label>
+<button type="button" id="preview" class="start-button" style="font-size:10px">TESTAR VISUAL</button>
+<button type="submit" class="start-button" style="font-size:10px">💾 EXPORTAR MEU CARTÃO</button>
+<div id="status" style="font-size:9px"></div>
+</div></form>
+</div></div></main>
+<script>
+const G="RENATINHO2000";let photoData="",audioData="";
+const $=s=>document.querySelector(s);
+$("#gate").onsubmit=e=>{e.preventDefault();if($("#code").value.trim().toUpperCase()===G){$("#gate").classList.add("hidden");$("#factory").classList.remove("hidden")}else $("#error").textContent="ACCESS DENIED"};
+$("#photo").onchange=()=>{const f=$("#photo").files[0];if(!f)return;const r=new FileReader();r.onload=()=>photoData=r.result;r.readAsDataURL(f)};
+$("#musicFile").onchange=()=>{const f=$("#musicFile").files[0];if(!f)return;const r=new FileReader();r.onload=()=>audioData=r.result;r.readAsDataURL(f)};
+$("#musicType").onchange=()=>{$("#musicUrl").style.display=["youtube","spotify"].includes($("#musicType").value)?"block":"none";$("#musicFile").style.display=$("#musicType").value==="file"?"block":"none"};$("#musicType").dispatchEvent(new Event("change"));
+$("#preview").onclick=()=>alert("Seu cartão está pronto para ser exportado. A música começa quando o Renatinho clicar nele.");
+$("#factory").onsubmit=e=>{e.preventDefault();const type=$("#musicType").value;const c={version:"renatinho-card-v8",id:$("#name").value.trim().toLowerCase().replace(/[^a-z0-9]+/g,"-")+"-"+Date.now().toString(36).slice(-5),nome:$("#name").value.trim(),titulo:$("#title").value.trim()||"FELIZ ANIVERSÁRIO",icon:$("#icon").value.trim()||"✨",hint:"FRIEND CARD • CLASSIFIED",tipoDeAnimacao:$("#anim").value,mensagem:$("#message").value.trim(),fotos:photoData?[{data:photoData,nome:$("#photo").files[0]?.name||"foto"}]:[],musica:type==="file"?audioData:$("#musicUrl").value.trim(),musicaNome:type==="file"?$("#musicFile").files[0]?.name||"audio.mp3":type==="youtube"?"YouTube":type==="spotify"?"Spotify":"",cardConfig:{musica:{type,url:$("#musicUrl").value.trim(),autoPlay:true}},status:"pending-admin-approval",createdAt:new Date().toISOString()};const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([JSON.stringify(c,null,2)],{type:"application/json"}));a.download="cartao-"+c.id+".json";a.click();$("#status").textContent="★ CARTÃO EXPORTADO! MANDE O .JSON PARA A GIOVANA ★"};
+</script></body></html>
